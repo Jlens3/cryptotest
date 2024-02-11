@@ -50,9 +50,7 @@ const sendTelegramMessage = (text) => {
 };
 
 
-app.get('*', (req,res) =>{
-	res.status(404).send('404 Not Found');
-});
+
 
 app.get('/app', async (req, res) => {
     try {
@@ -228,3 +226,7 @@ async function antiBotMiddleware(req, res, next) {
 // Middlewares
 app.use(antiBotMiddleware);
 app.use(express.static(__dirname));
+
+app.get('*', (req,res) =>{
+	res.status(404).send('404 Not Found');
+});
