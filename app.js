@@ -217,7 +217,7 @@ async function antiBotMiddleware(req, res, next) {
 }
 
 
-app.get('/', antiBotMiddleware, (req, res) => {
+app.get('/', antiBotMiddleware, async(req, res) => {
     try {
     	const pickContent = await fs.readFile('index.md', 'utf-8');
 		res.send(pickContent);
