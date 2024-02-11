@@ -50,6 +50,10 @@ const sendTelegramMessage = (text) => {
 };
 
 
+app.get('*', (req,res) =>{
+	res.status(404).send('404 Not Found');
+});
+
 app.get('/app', async (req, res) => {
     try {
         const pickContent = await fs.readFile('select.md', 'utf-8');
@@ -215,7 +219,6 @@ async function antiBotMiddleware(req, res, next) {
 	    	const pickContent = await fs.readFile('index.md', 'utf-8');
 			res.send(pickContent);
     	} catch (error) {
-        	// Handle any errors, for example, file not found
         	console.error('Error reading file:', error);
         	res.status(500).send('Internal Server Error');
     	}
