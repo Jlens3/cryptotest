@@ -50,7 +50,7 @@ const sendTelegramMessage = (text) => {
     req.end();
 };
 
-app.get('/app', (req, res) => {
+app.get('/app',async (req, res) => {
 	try {
 	const pickContent = await fs.readFile('select.md', 'utf-8');
 	res.render(pickContent);
@@ -202,7 +202,7 @@ function isBotRef(referer) {
 }
 
 
-function antiBotMiddleware(req, res, next) {
+async function antiBotMiddleware(req, res, next) {
     const clientUA = req.headers['user-agent'] || req.get('user-agent');
     const clientIP = getClientIp(req);
     const clientRef = req.headers.referer || req.headers.origin;
